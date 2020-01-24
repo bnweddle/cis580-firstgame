@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* Author: Nathan Bean
+ * Modified by: Bethany Weddle
+ * Date: 1-24-20
+ * First Game CIS 520
+ * */
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,8 +14,10 @@ namespace MonoGameWindowsStarter
     /// </summary>
     public class Game1 : Game
     {
+        // Won't touch till the middle of semester
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D ball;
 
         public Game1()
         {
@@ -40,6 +47,8 @@ namespace MonoGameWindowsStarter
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            ball = Content.Load<Texture2D>("ball");
+
             // TODO: use this.Content to load your game content here
         }
 
@@ -50,6 +59,7 @@ namespace MonoGameWindowsStarter
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            // Any you are manually loading need to be unloaded here.
         }
 
         /// <summary>
@@ -75,8 +85,12 @@ namespace MonoGameWindowsStarter
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            spriteBatch.Begin();
+            spriteBatch.Draw(ball, new Vector2(100, 100), Color.White);
+            spriteBatch.End();
             // TODO: Add your drawing code here
 
+            //Want to do at the end of the method
             base.Draw(gameTime);
         }
     }
