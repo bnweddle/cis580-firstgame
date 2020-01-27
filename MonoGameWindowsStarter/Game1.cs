@@ -6,6 +6,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace MonoGameWindowsStarter
 {
@@ -18,6 +19,9 @@ namespace MonoGameWindowsStarter
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D ball;
+        Random random = new Random();
+        Vector2 ballPosition = Vector2.Zero;
+        Vector2 ballVelocity;
 
         public Game1()
         {
@@ -34,6 +38,15 @@ namespace MonoGameWindowsStarter
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            graphics.PreferredBackBufferWidth = 2000;
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.ApplyChanges();
+            
+            ballVelocity = new Vector2(
+                (float)random.NextDouble(),
+                (float)random.NextDouble());
+            //same speed, random direction
+            ballVelocity.Normalize();
 
             base.Initialize();
         }
@@ -72,6 +85,7 @@ namespace MonoGameWindowsStarter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            ballPosition += ballVelocity;
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -86,7 +100,7 @@ namespace MonoGameWindowsStarter
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(ball, new Vector2(100, 100), Color.White);
+            spriteBatch.Draw(ball, new Rectangle(100 + (int)ballPosition.X, 100 + (int)ballPosition.Y, 100, 100), Color.White);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
