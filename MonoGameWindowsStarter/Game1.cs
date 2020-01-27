@@ -1,6 +1,6 @@
 ﻿/* Author: Nathan Bean
  * Modified by: Bethany Weddle
- * Date: 1-24-20
+ * Date Modified: 1-27-20
  * First Game CIS 520
  * */
 using Microsoft.Xna.Framework;
@@ -86,7 +86,7 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             // TODO: Add your update logic here
-            ballPosition += 10 * ballVelocity;
+            ballPosition += (float)gameTime.ElapsedGameTime.TotalMilliseconds * ballVelocity;
 
             //Check for wall collisons, depends on where your wall is
             if(ballPosition.Y < 0) //top of screen
