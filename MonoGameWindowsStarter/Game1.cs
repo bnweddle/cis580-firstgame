@@ -1,6 +1,6 @@
 ﻿/* Author: Nathan Bean
  * Modified by: Bethany Weddle
- * Date Modified: 1-27-20
+ * Date Modified: 1-29-20
  * First Game CIS 520
  * */
 using Microsoft.Xna.Framework;
@@ -22,6 +22,11 @@ namespace MonoGameWindowsStarter
         Random random = new Random();
         Vector2 ballPosition = Vector2.Zero;
         Vector2 ballVelocity;
+        Texture2D paddle;
+        Rectangle paddleRect;
+        int paddleSpeed = 0;
+        KeyboardState oldstate;
+        KeyboardState newState;
 
         public Game1()
         {
@@ -48,6 +53,11 @@ namespace MonoGameWindowsStarter
             //same speed, random direction
             ballVelocity.Normalize();
 
+            paddleRect.X = 0;
+            paddleRect.Y = 0;
+            paddleRect.Width = 50;
+            paddleRect.Height = 250;
+
             base.Initialize();
         }
 
@@ -59,8 +69,8 @@ namespace MonoGameWindowsStarter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             ball = Content.Load<Texture2D>("ball");
+            paddle = Content.Load<Texture2D>("onepixel");
 
             // TODO: use this.Content to load your game content here
         }
@@ -82,8 +92,35 @@ namespace MonoGameWindowsStarter
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            newState = Keyboard.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if(newState.IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
+            // increasing or/and decreasing the speed of the paddle
+            if(newState.IsKeyDown(Keys.Up) && !oldstate.IsKeyDown(Keys.Up))
+            {
+                paddleSpeed -= 1;
+            }
+            if (newState.IsKeyDown(Keys.Down) && !oldstate.IsKeyDown(Keys.Down))
+            {
+                paddleSpeed += 1;
+            }
+
+            paddleRect.Y += paddleSpeed;
+
+            // Making sure paddle doesn't go off screen
+            if (paddleRect.Y < 0)
+            {
+                paddleRect.Y = 0;
+            }
+            if(paddleRect.Y > GraphicsDevice.Viewport.Height - paddleRect.Height)
+            {
+                paddleRect.Y = GraphicsDevice.Viewport.Height - paddleRect.Height;
+            }
 
             // TODO: Add your update logic here
             ballPosition += (float)gameTime.ElapsedGameTime.TotalMilliseconds * ballVelocity;
@@ -118,7 +155,7 @@ namespace MonoGameWindowsStarter
                 ballPosition.X += 2 * delta;
             }
 
-
+            newState = oldstate;
             base.Update(gameTime);
         }
 
@@ -132,6 +169,7 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Begin();
             spriteBatch.Draw(ball, new Rectangle((int)ballPosition.X, (int)ballPosition.Y, 100, 100), Color.White);
+            spriteBatch.Draw(paddle, paddleRect, Color.Red);
             spriteBatch.End();
             // TODO: Add your drawing code here
 
