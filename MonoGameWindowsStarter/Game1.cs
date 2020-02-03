@@ -1,6 +1,6 @@
 ﻿/* Author: Nathan Bean
  * Modified by: Bethany Weddle
- * Date Modified: 1-29-20
+ * Date Modified: 1-31-20
  * First Game CIS 520
  * */
 using Microsoft.Xna.Framework;
@@ -24,6 +24,7 @@ namespace MonoGameWindowsStarter
         Vector2 ballVelocity;
         Texture2D paddle;
         Rectangle paddleRect;
+        BoundingRectangle paddleBound;
         int paddleSpeed = 0;
         KeyboardState oldstate;
         KeyboardState newState;
@@ -53,10 +54,16 @@ namespace MonoGameWindowsStarter
             //same speed, random direction
             ballVelocity.Normalize();
 
-            paddleRect.X = 0;
+            // Replace with paddleBound?
+            /*paddleRect.X = 0;
             paddleRect.Y = 0;
             paddleRect.Width = 50;
-            paddleRect.Height = 250;
+            paddleRect.Height = 250;*/
+
+            paddleBound.X = 0;
+            paddleBound.Y = 0;
+            paddleBound.Width = 50;
+            paddleBound.Height = 250;
 
             base.Initialize();
         }
@@ -110,16 +117,17 @@ namespace MonoGameWindowsStarter
                 paddleSpeed += 1;
             }
 
-            paddleRect.Y += paddleSpeed;
+            // Paddle rect replaced with paddleBound
+            paddleBound.Y += paddleSpeed;
 
             // Making sure paddle doesn't go off screen
-            if (paddleRect.Y < 0)
+            if (paddleBound.Y < 0)
             {
-                paddleRect.Y = 0;
+                paddleBound.Y = 0;
             }
-            if(paddleRect.Y > GraphicsDevice.Viewport.Height - paddleRect.Height)
+            if(paddleBound.Y > GraphicsDevice.Viewport.Height - paddleBound.Height)
             {
-                paddleRect.Y = GraphicsDevice.Viewport.Height - paddleRect.Height;
+                paddleBound.Y = GraphicsDevice.Viewport.Height - paddleBound.Height;
             }
 
             // TODO: Add your update logic here
@@ -169,6 +177,7 @@ namespace MonoGameWindowsStarter
 
             spriteBatch.Begin();
             spriteBatch.Draw(ball, new Rectangle((int)ballPosition.X, (int)ballPosition.Y, 100, 100), Color.White);
+            // ???
             spriteBatch.Draw(paddle, paddleRect, Color.Red);
             spriteBatch.End();
             // TODO: Add your drawing code here

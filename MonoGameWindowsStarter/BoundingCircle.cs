@@ -18,6 +18,20 @@ namespace MonoGameWindowsStarter
         //This is a getter
         public Vector2 Center => new Vector2(X, Y);
 
+        public BoundingCircle(float x, float y, float radius)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Radius = radius;
+        }
+
+        public bool CollidesWith(BoundingCircle other)
+        {
+            // (A.Radius)^2 + (B.Radius)^2 <= (A.Center.X - B.Center.X)^2 + (A.Center.Y - B.Center.Y)^2
+            return !(Math.Sqrt((double)this.Radius) + Math.Sqrt((double)other.Radius) <=
+                Math.Sqrt((double)this.Center.X - (double)other.Center.X) + Math.Sqrt((double)this.Center.Y - (double)other.Center.Y));
+        }
+
 
     }
 }
