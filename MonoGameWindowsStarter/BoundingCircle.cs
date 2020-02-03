@@ -32,6 +32,5 @@ namespace MonoGameWindowsStarter
                 Math.Sqrt((double)this.Center.X - (double)other.Center.X) + Math.Sqrt((double)this.Center.Y - (double)other.Center.Y));
         }
 
-
     }
 }
