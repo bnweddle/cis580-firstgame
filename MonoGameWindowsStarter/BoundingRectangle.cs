@@ -34,5 +34,10 @@ namespace MonoGameWindowsStarter
                 || this.Y + this.Height < other.Y);
 
         }
+
+        public static implicit operator Rectangle(BoundingRectangle BR)
+        {
+            return new Rectangle((int)BR.X, (int)BR.Y, (int)BR.Width, (int)BR.Height);
+        }
     }   
 }
