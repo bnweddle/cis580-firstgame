@@ -51,6 +51,7 @@ namespace MonoGameWindowsStarter
             ballVelocity = new Vector2(
                 (float)random.NextDouble(),
                 (float)random.NextDouble());
+
             //same speed, random direction
             ballVelocity.Normalize();
 
@@ -123,6 +124,8 @@ namespace MonoGameWindowsStarter
                 ballVelocity.X *= -1;
                 float delta = 0 - ballPosition.X;
                 ballPosition.X += 2 * delta;
+
+                //replace with ballVelocity.X = Zero;
             }
 
             if (ballPosition.X > graphics.PreferredBackBufferWidth - 100) // Side of screen
@@ -131,6 +134,15 @@ namespace MonoGameWindowsStarter
                 float delta = graphics.PreferredBackBufferWidth - 100 - ballPosition.X;
                 ballPosition.X += 2 * delta;
             }
+
+            /* Add when you have finished Ball implementation
+            if(paddle.Bounds.CollidesWith(ball.Bounds))
+            {
+                ball.Velocity.X *= -1;
+                var delta = (paddle.Bounds.X + paddle.Bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
+                ball.Bounds.X += 2 * delta;
+            }
+            */
 
             newState = oldstate;
             base.Update(gameTime);
